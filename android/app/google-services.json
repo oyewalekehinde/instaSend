@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "487283971447",
+    "project_id": "instasend-2ff6a",
+    "storage_bucket": "instasend-2ff6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487283971447:android:8b692966ae7e03cfa1fd72",
+        "android_client_info": {
+          "package_name": "com.insta_send.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487283971447-668upiopq42o89t2joi0hclibe6vc9ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu49tRCiuHHlx1POBFdEgd0ki-1ofmnWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487283971447-668upiopq42o89t2joi0hclibe6vc9ae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

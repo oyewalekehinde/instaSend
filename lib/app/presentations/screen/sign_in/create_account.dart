@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:insta_send/app/data/models/create_account_model.dart';
+import 'package:insta_send/app/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'package:insta_send/app/presentations/screen/sign_in/login.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -10,13 +12,18 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _isHidden = true;
-
+  var _firstName = TextEditingController();
+  var _lastName = TextEditingController();
+  var _email = TextEditingController();
+  late String _phone;
+  var _password = TextEditingController();
   void _togglePasswordView() {
     setState(() {
       _isHidden = !_isHidden;
     });
   }
 
+  final AuthBloc _authBloc = AuthBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +85,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: TextFormField(
+                              controller: _password,
                               obscureText: _isHidden,
                               textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
@@ -125,6 +133,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           //     context,
                           //     MaterialPageRoute(
                           //         builder: (context) => TokenScreen()));
+                          _authBloc.add(AuthCreate(CreateAccountModel(
+                              emailAddress: _email.text,
+                              firstName: _firstName.text,
+                              lastName: _lastName.text,
+                              password: _password.text,
+                              phoneNumber: _phone)));
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -222,6 +236,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: TextFormField(
+            controller: _firstName,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
               hintStyle: TextStyle(
@@ -266,6 +281,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: TextFormField(
+            controller: _lastName,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
               hintStyle: TextStyle(
@@ -310,6 +326,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: TextFormField(
+            controller: _email,
             keyboardType: TextInputType.emailAddress,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
@@ -371,7 +388,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     BorderSide(style: BorderStyle.none, color: Colors.white),
               ),
             ),
-            onInputChanged: (PhoneNumber number) {},
+            onInputChanged: (PhoneNumber number) {
+              _phone = number.phoneNumber!;
+            },
             initialValue: PhoneNumber(dialCode: "+234", isoCode: "NG"),
             selectorConfig: SelectorConfig(
               selectorType: PhoneInputSelectorType.DIALOG,
