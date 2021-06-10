@@ -175,31 +175,31 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         builder: (context, state) {
-                          if (state is AuthLoading) {
-                            return CircularProgressIndicator();
-                          } else {
-                            return TextButton(
-                              onPressed: () {
-                                _authBloc.add(
-                                    AuthSignIn(_email.text, _password.text));
-                              },
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                minimumSize: Size(343, 64),
-                                backgroundColor: Color(0xFF43A3FB),
+                          // if (state is AuthLoading) {
+                          //   return CircularProgressIndicator();
+                          // } else {
+                          return TextButton(
+                            onPressed: () {
+                              _authBloc
+                                  .add(AuthSignIn(_email.text, _password.text));
+                            },
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
                               ),
-                              child: Text(
-                                'Log In',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: SizeConfig.textSizeMultiplier * 5,
-                                ),
-                                textAlign: TextAlign.center,
+                              minimumSize: Size(343, 64),
+                              backgroundColor: Color(0xFF43A3FB),
+                            ),
+                            child: Text(
+                              'Log In',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: SizeConfig.textSizeMultiplier * 5,
                               ),
-                            );
-                          }
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                          //   }
                         },
                       ),
                       SizedBox(

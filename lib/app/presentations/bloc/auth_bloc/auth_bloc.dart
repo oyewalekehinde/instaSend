@@ -46,8 +46,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is AuthSignIn) {
       yield AuthLoading();
       try {
-        firebaseAuth.signInWithEmailAndPassword(
-            email: event.email, password: event.password);
+        late CreateAccountModel data;
+        await firebaseAuth
+            .signInWithEmailAndPassword(
+                email: event.email, password: event.password)
+            .then((result) {
+          dbRef.orderByKey().equalTo(result.user!.uid).once().then((value) {
+            print(value.value[result.user!.uid]);
+            Map<dynamic, dynamic> red = value.value[result.user!.uid];
+            print(jsonEncode(red.toString()));
+            // data = CreateAccountModel.fromJson(red
+            // );
+          });
+        });
+        // print(data);
+        // yield AuthCreated(data);
       } catch (error) {
         if (error is FirebaseAuthException) {
           print(error.code);
