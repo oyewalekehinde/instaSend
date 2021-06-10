@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_send/app/data/models/create_account_model.dart';
 import 'package:insta_send/app/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'package:insta_send/app/presentations/screen/home.dart/home.dart';
 import 'package:insta_send/app/presentations/screen/sign_in/login.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -24,6 +28,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   final AuthBloc _authBloc = AuthBloc();
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,34 +138,68 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                   Column(
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => TokenScreen()));
-                          _authBloc.add(AuthCreate(CreateAccountModel(
-                              emailAddress: _email.text,
-                              firstName: _firstName.text,
-                              lastName: _lastName.text,
-                              password: _password.text,
-                              phoneNumber: _phone)));
+                      BlocConsumer<AuthBloc, AuthState>(
+                        bloc: _authBloc,
+                        listener: (context, state) {
+                          print(state);
+                          if (state is AuthFailed) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Error"),
+                                    content: Text(state.message),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                          if (state is AuthCreated) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomeScreen(state.result)));
+                          }
                         },
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          minimumSize: Size(343, 64),
-                          backgroundColor: Color(0xFF43A3FB),
-                        ),
-                        child: Text(
-                          'Create account',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: SizeConfig.textSizeMultiplier * 5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        builder: (context, state) {
+                          if (state is AuthLoading) {
+                            return CircularProgressIndicator();
+                          } else {
+                            return TextButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                _authBloc.add(AuthCreate(CreateAccountModel(
+                                    emailAddress: _email.text,
+                                    firstName: _firstName.text,
+                                    lastName: _lastName.text,
+                                    password: _password.text,
+                                    phoneNumber: _phone)));
+                              },
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                minimumSize: Size(343, 64),
+                                backgroundColor: Color(0xFF43A3FB),
+                              ),
+                              child: Text(
+                                'Create account',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.textSizeMultiplier * 5,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+                        },
                       ),
                       SizedBox(
                         height: SizeConfig.heightMultiplier * 3,

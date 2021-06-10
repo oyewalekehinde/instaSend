@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insta_send/app/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'package:insta_send/app/presentations/screen/home.dart/home.dart';
 import 'package:insta_send/app/presentations/screen/sign_in/create_account.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 
@@ -9,11 +12,22 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
-
+  var _email = TextEditingController();
+  var _password = TextEditingController();
   void _togglePasswordView() {
     setState(() {
       _isHidden = !_isHidden;
     });
+  }
+
+  final AuthBloc _authBloc = AuthBloc();
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      _buildEmail(),
+                      _buildEmail(_email),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -85,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             child: TextFormField(
+                              controller: _password,
                               obscureText: _isHidden,
                               textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
@@ -129,28 +144,63 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Column(
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => TokenScreen()));
+                      BlocConsumer<AuthBloc, AuthState>(
+                        bloc: _authBloc,
+                        listener: (context, state) {
+                          print(state);
+                          if (state is AuthFailed) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Error"),
+                                    content: Text(state.message),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                          if (state is AuthCreated) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomeScreen(state.result)));
+                          }
                         },
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          minimumSize: Size(343, 64),
-                          backgroundColor: Color(0xFF43A3FB),
-                        ),
-                        child: Text(
-                          'Log In',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: SizeConfig.textSizeMultiplier * 5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        builder: (context, state) {
+                          if (state is AuthLoading) {
+                            return CircularProgressIndicator();
+                          } else {
+                            return TextButton(
+                              onPressed: () {
+                                _authBloc.add(
+                                    AuthSignIn(_email.text, _password.text));
+                              },
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                minimumSize: Size(343, 64),
+                                backgroundColor: Color(0xFF43A3FB),
+                              ),
+                              child: Text(
+                                'Log In',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.textSizeMultiplier * 5,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+                        },
                       ),
                       SizedBox(
                         height: SizeConfig.heightMultiplier * 7,
@@ -211,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Widget _buildEmail() {
+Widget _buildEmail(TextEditingController _email) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -230,6 +280,7 @@ Widget _buildEmail() {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: TextFormField(
+          controller: _email,
           keyboardType: TextInputType.emailAddress,
           textCapitalization: TextCapitalization.words,
           decoration: InputDecoration(
