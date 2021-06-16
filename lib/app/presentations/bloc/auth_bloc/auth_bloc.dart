@@ -4,9 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
 import 'package:insta_send/app/data/models/create_account_model.dart';
-import 'dart:convert';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -46,21 +44,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is AuthSignIn) {
       yield AuthLoading();
       try {
-        late CreateAccountModel data;
+        CreateAccountModel data = CreateAccountModel();
         await firebaseAuth
             .signInWithEmailAndPassword(
                 email: event.email, password: event.password)
-            .then((result) {
-          dbRef.orderByKey().equalTo(result.user!.uid).once().then((value) {
-            print(value.value[result.user!.uid]);
+            .then((result) async {
+          await dbRef
+              .orderByKey()
+              .equalTo(result.user!.uid)
+              .once()
+              .then((value) {
             Map<dynamic, dynamic> red = value.value[result.user!.uid];
-            print(jsonEncode(red.toString()));
-            // data = CreateAccountModel.fromJson(red
-            // );
+            data = CreateAccountModel.fromJson(red.cast<String, Object>());
           });
         });
-        // print(data);
-        // yield AuthCreated(data);
+        yield AuthCreated(data);
       } catch (error) {
         if (error is FirebaseAuthException) {
           print(error.code);
