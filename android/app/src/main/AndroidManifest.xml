@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.insta_send">
+    package="com.example.insta_read">
    <application
-        android:label="insta_send"
+        android:label="insta_read"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

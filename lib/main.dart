@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 
+import 'Screens/Welcome/welcome_screen.dart';
 import 'app/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'app/presentations/screen/onboarding.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: OnboardingScreen(),
+          home: WelcomeScreen(),
         ),
       );
     });
