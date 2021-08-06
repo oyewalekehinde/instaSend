@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
 import 'package:insta_send/app/data/models/create_account_model.dart';
-import 'package:insta_send/core/utils/animation/fade_animation.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
