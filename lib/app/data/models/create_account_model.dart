@@ -19,7 +19,7 @@ class CreateAccountModel extends Equatable {
       CreateAccountModel(
         firstName: json["first_name"],
         lastName: json["last_name"],
-        emailAddress: json["email_address"],
+        emailAddress: json["email"],
         phoneNumber: json["phone_number"],
         password: json["password"],
       );

@@ -11,3 +11,9 @@ class AuthCreate extends AuthEvent {
   final CreateAccountModel createAccount;
   AuthCreate(this.createAccount);
 }
+
+class AuthSignIn extends AuthEvent {
+  final String email;
+  final String password;
+  AuthSignIn(this.email, this.password);
+}
