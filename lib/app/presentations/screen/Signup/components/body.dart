@@ -2,22 +2,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:insta_send/Screens/Login/login_screen.dart';
-import 'package:insta_send/Screens/Signup/components/background.dart';
-import 'package:insta_send/Screens/Signup/components/or_divider.dart';
-import 'package:insta_send/Screens/Signup/components/social_icon.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:insta_send/app/data/models/create_account_model.dart';
 import 'package:insta_send/app/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'package:insta_send/app/presentations/screen/home.dart/home.dart';
-import 'package:insta_send/components/already_have_an_account_acheck.dart';
-import 'package:insta_send/components/rounded_button.dart';
-import 'package:insta_send/components/rounded_input_field.dart';
-import 'package:insta_send/components/rounded_password_field.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:insta_send/constants.dart';
+import 'package:insta_send/app/presentations/screen/Login/components/background.dart';
+import 'package:insta_send/app/presentations/screen/Login/login_screen.dart';
+import 'package:insta_send/app/presentations/screen/Signup/components/social_icon.dart';
+import 'package:insta_send/app/presentations/screen/home/home.dart';
+import 'package:insta_send/core/utils/constants.dart';
+
 import 'package:insta_send/core/utils/functions.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+
+import 'or_divider.dart';
 
 class Body extends StatefulWidget {
   @override

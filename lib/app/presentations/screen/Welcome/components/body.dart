@@ -2,12 +2,12 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insta_send/Screens/Login/login_screen.dart';
-import 'package:insta_send/Screens/Signup/signup_screen.dart';
-import 'package:insta_send/components/rounded_button.dart';
+import 'package:insta_send/app/presentations/screen/Login/login_screen.dart';
+import 'package:insta_send/app/presentations/screen/Signup/signup_screen.dart';
+import 'package:insta_send/core/components/rounded_button.dart';
+import 'package:insta_send/core/utils/constants.dart';
 import 'dart:math' as math;
 
-import '../../../constants.dart';
 import 'background.dart';
 
 class Body extends StatelessWidget {

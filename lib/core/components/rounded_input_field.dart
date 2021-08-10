@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insta_send/components/text_field_container.dart';
-
-import '../constants.dart';
+import 'package:insta_send/core/components/text_field_container.dart';
 
 class RoundedInputField extends StatelessWidget {
   final IconData icon;

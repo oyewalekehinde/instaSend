@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants.dart';
+import 'package:insta_send/core/utils/constants.dart';
 
 class OrDivider extends StatelessWidget {
   @override

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insta_send/Screens/Signup/signup_screen.dart';
 import 'package:insta_send/app/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'package:insta_send/app/presentations/screen/home.dart/home.dart';
-import 'package:insta_send/components/already_have_an_account_acheck.dart';
-import 'package:insta_send/components/rounded_button.dart';
-import 'package:insta_send/components/rounded_input_field.dart';
-import 'package:insta_send/components/rounded_password_field.dart';
-import 'package:insta_send/constants.dart';
+import 'package:insta_send/app/presentations/screen/Signup/signup_screen.dart';
+import 'package:insta_send/app/presentations/screen/home/home.dart';
+import 'package:insta_send/core/components/rounded_input_field.dart';
+import 'package:insta_send/core/components/rounded_password_field.dart';
+import 'package:insta_send/core/utils/constants.dart';
+
 import 'package:insta_send/core/utils/functions.dart';
 import 'package:insta_send/core/utils/size_config.dart';
 
